@@ -16,35 +16,34 @@
 package tp04.metier;
 
 import java.util.HashMap;
-import java.util.Map;
 
-/**
- *
- * @author perussel
- */
 public class ActionComposee extends Action {
-    // attribut lien
-    Map<ActionSimple, Float> mapPanier;
 
-    public ActionComposee(String libelle) {
-        super(libelle);
-        this.mapPanier = new HashMap();
-    }
+	/**
+	 * Associate to an action its percentage. For exemple, a value of 0.5 means 50%.
+	 */
+	HashMap<Action, Integer> shares;
 
-    public void enrgComposition(ActionSimple as, float pourcentage) {
-        this.mapPanier.put(as, pourcentage);
-    }
+	public ActionComposee(String libelle) {
+		super(libelle);
+		this.shares = new HashMap<Action, Integer>();
+	}
 
-    @Override
-    public float valeur(Jour j) {
-        float valeur;
+	public void addACtion(Action a, int percentage) {
+		if (this.shares.containsKey(a)) {
+			this.shares.put(a, percentage + this.shares.get(a));
+		} else {
+			this.shares.put(a, percentage);
+		}
+	}
 
-        valeur = 0;
-        for (ActionSimple as : this.mapPanier.keySet()) {
-            valeur = valeur + (as.valeur(j) * this.mapPanier.get(as));
-        }
-
-        return valeur;
-    }
+	@Override
+	public double getValue(int jour, int year) throws Exception {
+		double value = 0;
+		for (Action a : this.shares.keySet()) {
+			value = value + a.getValue(jour, year) * this.shares.get(a);
+		}
+		return value;
+	}
 
 }
