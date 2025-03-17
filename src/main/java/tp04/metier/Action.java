@@ -17,52 +17,29 @@ package tp04.metier;
 
 import java.util.Objects;
 
-/**
- *
- * @author perussel
- */
 public abstract class Action {
+	String libelle;
 
-    private String libelle;
+	public Action(String libelle) {
+		this.libelle = libelle;
+	}
 
-    /**
-     * Get the value of libelle
-     *
-     * @return the value of libelle
-     */
-    public String getLibelle() {
-        return libelle;
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(libelle);
+	}
 
-    public Action(String libelle) {
-        this.libelle = libelle;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Action other = (Action) obj;
+		return Objects.equals(libelle, other.libelle);
+	}
 
-    public abstract float valeur(Jour j);
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 53 * hash + Objects.hashCode(this.libelle);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Action other = (Action) obj;
-        if (!Objects.equals(this.libelle, other.libelle)) {
-            return false;
-        }
-        return true;
-    }
-
-    public String toString() {
-        return this.getLibelle();
-    }
+	public abstract double getValue(int jour, int year) throws Exception;
 }
