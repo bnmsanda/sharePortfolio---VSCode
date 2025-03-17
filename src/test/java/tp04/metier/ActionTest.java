@@ -40,6 +40,11 @@ class ActionTest {
         public float valeur(Jour j) {
             return 0.0F;
         }
+
+        @Override
+        public double getValue(int jour, int year) throws Exception {
+            return 0.0;
+        }
     }
 
 }
