@@ -32,6 +32,13 @@ public class Portefeuille {
 	public void buyExistingAction(Action a) {
 		this.myActions.add(a);
 	}
+	public void afficherValeurAction(Action a, int year, int day) {
+    if (this.myActions.contains(a)) {
+        a.afficherValeur(day, year);
+    } else {
+        System.out.println("Cette action n'est pas dans le portefeuille.");
+    }
+}
 
 	public double sellAction(Action a, int year, int day) throws Exception {
 		double value = this.myActions.get(this.myActions.indexOf(a)).getValue(day, year);
