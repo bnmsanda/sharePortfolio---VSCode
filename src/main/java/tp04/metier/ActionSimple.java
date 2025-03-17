@@ -16,58 +16,33 @@
 package tp04.metier;
 
 import java.util.HashMap;
-import java.util.Map;
 
-/**
- *
- * @author perussel
- */
 public class ActionSimple extends Action {
 
-    // attribut lien
-    private Map<Jour, Cours> mapCours;
+	HashMap<Integer, double[]> yearMap;
 
-    // constructeur
-    public ActionSimple(String libelle) {
-        // Action simple initialisée comme 1 action
-        super(libelle);
-        // init spécifique
-        this.mapCours = new HashMap();
-    }
+	public ActionSimple(String libelle) {
+		super(libelle);
+		this.yearMap = new HashMap<Integer, double[]>();
+	}
 
-    // enrg possible si pas de cours pour ce jour
-    public void enrgCours(Jour j, float v) {
-        if (this.mapCours.containsKey(j) == false)
-            this.mapCours.put(j, new Cours(j, v));
-    }
+	public void addDailyValue(int year, int jour, double value) {
+		if (this.yearMap.containsKey(year)) {
+			this.yearMap.get(year)[jour] = value;
+		} else {
+			double[] values = new double[365];
+			values[jour] = value;
+			this.yearMap.put(year, values);
+		}
+	}
 
-    @Override
-    public float valeur(Jour j) {
-        if (this.mapCours.containsKey(j) == true)
-            return this.mapCours.get(j).getValeur();
-        else
-            return 0; // definition d'une constante possible
-    }
+	@Override
+	public double getValue(int jour, int year) throws Exception {
+		if (this.yearMap.containsKey(year)) {
+			return this.yearMap.get(year)[jour];
+		} else {
+			throw new Exception("No value for this year");
+		}
+	}
 
-    // encapsulation de la définition de la classe Cours
-    private class Cours {
-
-        private Jour jour;
-
-        private float valeur;
-
-        public float getValeur() {
-            return valeur;
-        }
-
-        public Jour getJour() {
-            return jour;
-        }
-
-        public Cours(Jour jour, float valeur) {
-            this.jour = jour;
-            this.valeur = valeur;
-        }
-
-    }
 }
