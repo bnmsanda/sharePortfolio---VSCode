@@ -16,34 +16,38 @@
 package tp04.metier;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ActionComposee extends Action {
+    private Map<Action, Integer> composants;
 
-	/**
-	 * Associate to an action its percentage. For exemple, a value of 0.5 means 50%.
-	 */
-	HashMap<Action, Integer> shares;
+    public ActionComposee(String libelle) {
+        super(libelle);
+        this.composants = new HashMap<>();
+    }
 
-	public ActionComposee(String libelle) {
-		super(libelle);
-		this.shares = new HashMap<Action, Integer>();
-	}
+    public void ajouterComposition(ActionSimple action, float pourcentage) {
+        if (pourcentage <= 0 || pourcentage > 100) {
+            throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 100.");
+        }
+        composants.merge(action, (int) pourcentage, Integer::sum);
+    }
 
-	public void addACtion(Action a, int percentage) {
-		if (this.shares.containsKey(a)) {
-			this.shares.put(a, percentage + this.shares.get(a));
-		} else {
-			this.shares.put(a, percentage);
-		}
-	}
+    @Override
+    public void ajouterValeur(int year, int jour, double valeur) {
+        throw new UnsupportedOperationException("Les valeurs sont dérivées des actions composées.");
+    }
 
-	@Override
-	public double getValue(int jour, int year) throws Exception {
-		double value = 0;
-		for (Action a : this.shares.keySet()) {
-			value = value + a.getValue(jour, year) * this.shares.get(a);
-		}
-		return value;
-	}
+    @Override
+    public double getValue(int jour, int year) throws Exception {
+        double valeurTotale = 0;
+        for (Map.Entry<Action, Integer> entry : composants.entrySet()) {
+            valeurTotale += (entry.getKey().getValue(jour, year) * entry.getValue()) / 100.0;
+        }
+        return valeurTotale;
+    }
 
+    public double valeur(int jour, int year) throws Exception {
+        return getValue(jour, year);
+    }
 }
