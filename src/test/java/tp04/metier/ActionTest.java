@@ -99,6 +99,26 @@ class ActionTest {
         System.setOut(System.out);
     }
 
+    @Test
+    void testEquals() {
+        // Création de deux actions avec le même libellé
+        Action action1 = new ActionSimple("Action 1", null);
+        Action action2 = new ActionSimple("Action 1", null);
+
+        // Création d'une action avec un libellé différent
+        Action action3 = new ActionSimple("Action 2", null);
+
+        // Vérification de l'égalité
+        assertTrue(action1.equals(action2)); // Même libellé, doivent être égales
+        assertFalse(action1.equals(action3)); // Libellé différent, ne doivent pas être égales
+
+        // Vérification avec null
+        assertFalse(action1.equals(null)); // Ne doit pas être égal à null
+
+        // Vérification avec un objet d'une autre classe
+        assertFalse(action1.equals("Une chaîne de caractères")); // Ne doit pas être égal à un objet d'un autre type
+    }
+
     public class ActionImpl extends Action {
 
         public ActionImpl() {
