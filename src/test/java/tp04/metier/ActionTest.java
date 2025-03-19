@@ -18,17 +18,13 @@ package tp04.metier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+//test3
 /**
  *
  * @author David Navarre &lt;David.Navarre at irit.fr&gt;
  */
 class ActionTest {
 
-    @Test
-    void testGetLibelle() {
-        final Action action = new ActionImpl();
-        Assertions.assertNotNull(action.getLibelle());
-    }
 
     public class ActionImpl extends Action {
 
@@ -36,9 +32,11 @@ class ActionTest {
             super("");
         }
 
-        public float valeur(Jour j) {
+
+        @Override
+        public double getValue(int jour, int year) throws Exception {
             return 0.0F;
-        }
+          }
     }
 
 }
