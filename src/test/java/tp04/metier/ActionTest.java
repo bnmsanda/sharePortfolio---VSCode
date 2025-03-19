@@ -18,7 +18,7 @@ package tp04.metier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-//test1
+//test2
 /**
  *
  * @author David Navarre &lt;David.Navarre at irit.fr&gt;
