@@ -42,5 +42,5 @@ public abstract class Action {
     }
 
     public abstract void ajouterValeur(int year, int jour, double valeur);
-    public abstract double getValue(int jour, int year) throws Exception;
+    public abstract double getValue(int jour, int year) throws IllegalArgumentException;
 }

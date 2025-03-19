@@ -32,12 +32,13 @@ public class ActionSimple extends Action {
     }
 
     @Override
-    public double getValue(int jour, int year) throws Exception {
-        if (historiquePrix.containsKey(year) && historiquePrix.get(year)[jour] != 0) {
-            return historiquePrix.get(year)[jour];
-        }
-        throw new Exception("Aucune valeur disponible pour " + libelle + " au jour " + jour);
+public double getValue(int jour, int year) throws IllegalArgumentException {
+    if (historiquePrix.containsKey(year) && historiquePrix.get(year)[jour] != 0) {
+        return historiquePrix.get(year)[jour];
     }
+    throw new IllegalArgumentException("Aucune valeur disponible pour " + libelle + " au jour " + jour);
+}
+
 
     public void enrgCours(int jour, int year, double prix) {
         ajouterValeur(year, jour, prix);
