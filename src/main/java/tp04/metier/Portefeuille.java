@@ -15,8 +15,8 @@
  */
 package tp04.metier;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class Portefeuille {
 
@@ -26,15 +26,15 @@ public class Portefeuille {
 		this.myPortefeuille = new HashMap<Action, Integer>();
 	}
 
-	public void vendreAction(Action a, Integer qt) throws Exception
+	public void vendreAction(Action a, Integer qt) throws NoSuchElementException,IllegalArgumentException 
 	{
 		if (!myPortefeuille.containsKey(a)) {
-			throw new Exception("L'action n'est pas présente dans le portefeuille");
+			throw new NoSuchElementException("L'action n'est pas présente dans le portefeuille");
 		}
 		int currentQuantite = myPortefeuille.get(a);
 
 		if (currentQuantite < qt) {
-			throw new Exception("Quantité insuffisante pour la vente");
+			throw new IllegalArgumentException("Quantité insuffisante pour la vente");
 		}
 
 		if (currentQuantite == qt){
