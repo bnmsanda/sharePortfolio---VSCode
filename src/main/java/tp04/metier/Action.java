@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *  *      http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,34 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* push verifier hl */
 package tp04.metier;
 
 import java.util.Objects;
 
 public abstract class Action {
-	String libelle;
+    protected String libelle;
 
-	public Action(String libelle) {
-		this.libelle = libelle;
-	}
+    public Action(String libelle) {
+        this.libelle = libelle;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(libelle);
-	}
+    public String getLibelle() {
+        return this.libelle;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Action other = (Action) obj;
-		return Objects.equals(libelle, other.libelle);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(libelle);
+    }
 
-	public abstract double getValue(int jour, int year) throws Exception;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Action other = (Action) obj;
+        return Objects.equals(libelle, other.libelle);
+    }
+
+    public abstract void ajouterValeur(int year, int jour, double valeur);
+    public abstract double getValue(int jour, int year) throws Exception;
 }

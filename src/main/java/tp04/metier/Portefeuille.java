@@ -15,29 +15,73 @@
  */
 package tp04.metier;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Portefeuille {
+    private Map<Action, Integer> actionsPossedees;
+    private Map<Action, List<String>> historiqueTransactions;
 
-	ArrayList<Action> myActions;
+    public Portefeuille() {
+        this.actionsPossedees = new HashMap<>();
+        this.historiqueTransactions = new HashMap<>();
+    }
 
-	public Portefeuille() {
-		this.myActions = new ArrayList<Action>();
-	}
+    public void acheter(Action action, int quantite) {
+        acheterAction(action, quantite, 0.0, 0, 0);
+    }
 
-	public void buyNewAction(String libelle) {
-		this.myActions.add(new ActionSimple(libelle));
-	}
+    public void acheter(ActionSimple action, int quantite, double prix, int jour, int year) {
+        acheterAction(action, quantite, prix, jour, year);
+    }
 
-	public void buyExistingAction(Action a) {
-		this.myActions.add(a);
-	}
+    public void acheter(ActionComposee action, int quantite) {
+        acheterAction(action, quantite, 0.0, 0, 0);
+    }
 
-	public double sellAction(Action a, int year, int day) throws Exception {
-		double value = this.myActions.get(this.myActions.indexOf(a)).getValue(day, year);
-		this.myActions.remove(a);
-		return value;
-	}
+    private void acheterAction(Action action, int quantite, double prix, int jour, int year) {
+        actionsPossedees.merge(action, quantite, Integer::sum);
+        if (action instanceof ActionSimple && prix > 0) {
+            ((ActionSimple) action).ajouterValeur(year, jour, prix);
+        }
+        historiqueTransactions.computeIfAbsent(action, k -> new ArrayList<>())
+            .add("Jour " + jour + ", Année " + year + ": ACHAT de " + quantite + " à " + prix + "€");
+    }
 
+    public double vendre(Action action, int quantite, int jour, int year) throws Exception {
+        return vendreAction(action, quantite, jour, year);
+    }
+    
+
+    private double vendreAction(Action action, int quantite, int jour, int year) throws Exception {
+        if (!actionsPossedees.containsKey(action) || actionsPossedees.get(action) < quantite) {
+            throw new IllegalArgumentException("Pas assez d'actions pour vendre !");
+        }
+    
+        double prixVente = action.getValue(jour, year);
+        actionsPossedees.put(action, actionsPossedees.get(action) - quantite);
+        if (actionsPossedees.get(action) == 0) {
+            actionsPossedees.remove(action);
+        }
+    
+        historiqueTransactions.computeIfAbsent(action, k -> new ArrayList<>())
+            .add("Jour " + jour + ", Année " + year + ": VENTE de " + quantite + " à " + prixVente + "€");
+    
+        return prixVente * quantite;
+    }
+    
+
+    public List<String> getHistoriqueTransactions(Action action) {
+        return historiqueTransactions.getOrDefault(action, Collections.emptyList());
+    }
+
+    public void afficherPortefeuille() {
+        System.out.println("Portefeuille actuel:");
+        if (actionsPossedees.isEmpty()) {
+            System.out.println("Aucune action détenue.");
+        } else {
+            for (Map.Entry<Action, Integer> entry : actionsPossedees.entrySet()) {
+                System.out.println("- " + entry.getKey().getLibelle() + ": " + entry.getValue() + " actions");
+            }
+        }
+    }
 }
-

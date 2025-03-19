@@ -16,33 +16,34 @@
 package tp04.metier;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ActionSimple extends Action {
+    private Map<Integer, double[]> historiquePrix;
 
-	HashMap<Integer, double[]> yearMap;
+    public ActionSimple(String libelle) {
+        super(libelle);
+        this.historiquePrix = new HashMap<>();
+    }
 
-	public ActionSimple(String libelle) {
-		super(libelle);
-		this.yearMap = new HashMap<Integer, double[]>();
-	}
+    @Override
+    public void ajouterValeur(int year, int jour, double valeur) {
+        historiquePrix.computeIfAbsent(year, k -> new double[366])[jour] = valeur;
+    }
 
-	public void addDailyValue(int year, int jour, double value) {
-		if (this.yearMap.containsKey(year)) {
-			this.yearMap.get(year)[jour] = value;
-		} else {
-			double[] values = new double[365];
-			values[jour] = value;
-			this.yearMap.put(year, values);
-		}
-	}
+    @Override
+    public double getValue(int jour, int year) throws Exception {
+        if (historiquePrix.containsKey(year) && historiquePrix.get(year)[jour] != 0) {
+            return historiquePrix.get(year)[jour];
+        }
+        throw new Exception("Aucune valeur disponible pour " + libelle + " au jour " + jour);
+    }
 
-	@Override
-	public double getValue(int jour, int year) throws Exception {
-		if (this.yearMap.containsKey(year)) {
-			return this.yearMap.get(year)[jour];
-		} else {
-			throw new Exception("No value for this year");
-		}
-	}
+    public void enrgCours(int jour, int year, double prix) {
+        ajouterValeur(year, jour, prix);
+    }
 
+    public double valeur(int jour, int year) throws Exception {
+        return getValue(jour, year);
+    }
 }
