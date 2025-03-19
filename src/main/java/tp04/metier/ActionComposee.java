@@ -16,6 +16,7 @@
 package tp04.metier;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class ActionComposee extends Action {
@@ -23,34 +24,29 @@ public class ActionComposee extends Action {
 	/**
 	 * Associate to an action its percentage. For exemple, a value of 0.5 means 50%.
 	 */
-	HashMap<Action, Integer> shares;
+	private Map<Action, Integer> shares;
 
-	public ActionComposee(String libelle) {
-		super(libelle);
-		this.shares = new HashMap<Action, Integer>();
-	}
-
-	public void addACtion(Action a, int percentage) {
-		if (this.shares.containsKey(a)) {
-			this.shares.put(a, percentage + this.shares.get(a));
-		} else {
-			this.shares.put(a, percentage);
-		}
-	}
-
-
-	@Override
-    public double getValue(int jour, int year) throws NoSuchElementException {
-    double value = 0;
-    
-    for (HashMap.Entry<Action, Integer> entry : this.shares.entrySet()) {
-        Action a = entry.getKey();
-        int percentage = entry.getValue();
-        value += a.getValue(jour, year) * percentage;
+    public ActionComposee(String libelle) {
+        super(libelle);
+        this.shares = new HashMap<>();
     }
-    
-    return value;
+
+    public void addAction(Action a, int percentage) {
+        this.shares.put(a, this.shares.getOrDefault(a, 0) + percentage);
+    }
+
+    @Override
+    public double getValue(int jour, int year) throws NoSuchElementException {
+        double value = 0;
+
+        for (Map.Entry<Action, Integer> entry : this.shares.entrySet()) {
+            Action a = entry.getKey();
+            int percentage = entry.getValue();
+            value += a.getValue(jour, year) * percentage;
+        }
+
+        return value;
+    }
 }
 
 
-}
