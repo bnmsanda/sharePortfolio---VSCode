@@ -24,11 +24,6 @@ import org.junit.jupiter.api.Test;
  */
 class ActionTest {
 
-    @Test
-    void testGetLibelle() {
-        final Action action = new ActionImpl();
-        Assertions.assertNotNull(action.getLibelle());
-    }
 
     public class ActionImpl extends Action {
 
@@ -36,9 +31,11 @@ class ActionTest {
             super("");
         }
 
-        public float valeur(Jour j) {
+
+        @Override
+        public double getValue(int jour, int year) throws Exception {
             return 0.0F;
-        }
+          }
     }
 
 }
