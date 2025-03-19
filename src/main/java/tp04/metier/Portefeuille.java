@@ -15,29 +15,37 @@
  */
 package tp04.metier;
 
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Portefeuille {
 
-	ArrayList<Action> myActions;
+	private Map<Action, Integer> myActions;
 
 	public Portefeuille() {
-		this.myActions = new ArrayList<Action>();
+		this.myActions = new HashMap<>();
 	}
 
-	public void buyNewAction(String libelle) {
-		this.myActions.add(new ActionSimple(libelle));
+	public void buyAction(String libelle, int quantite) {
+		ActionSimple action = new ActionSimple(libelle);
+        this.myActions.put(action, this.myActions.getOrDefault(action, 0) + quantite);
 	}
 
-	public void buyExistingAction(Action a) {
-		this.myActions.add(a);
-	}
-
-	public double sellAction(Action a, int year, int day) throws Exception {
-		double value = this.myActions.get(this.myActions.indexOf(a)).getValue(day, year);
+	public double sellAction(Action a, int jour, int annee) throws Exception {
+		if (!this.myActions.containsKey(a)) {
+            throw new Exception("Action n'existe pas en portefeuille.");
+        }
+		double value = this.myActions.get(a) * a.getValue(jour, annee);
 		this.myActions.remove(a);
 		return value;
 	}
 
+	public double getValueTotal(int jour, int annee) throws Exception {
+		double total = 0;
+		for (Action a : this.myActions.keySet()){
+			total += this.myActions.get(a) * a.getValue(jour, annee);
+		}
+		return total;
+	}
 }
 

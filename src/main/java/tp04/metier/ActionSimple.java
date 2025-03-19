@@ -23,7 +23,7 @@ public class ActionSimple extends Action {
 
 	public ActionSimple(String libelle) {
 		super(libelle);
-		this.yearMap = new HashMap<Integer, double[]>();
+		this.yearMap = new HashMap<>();
 	}
 
 	public void addDailyValue(int year, int jour, double value) {
@@ -39,7 +39,7 @@ public class ActionSimple extends Action {
 	@Override
 	public double getValue(int jour, int year) throws Exception {
 		if (this.yearMap.containsKey(year)) {
-			return this.yearMap.get(year)[jour];
+			return this.yearMap.get(year)[jour-1];
 		} else {
 			throw new Exception("No value for this year");
 		}
