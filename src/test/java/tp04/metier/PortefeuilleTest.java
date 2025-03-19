@@ -55,7 +55,7 @@ public class PortefeuilleTest {
         actionComposee.addAction(action5, 15); 
     }
 
-    // 模拟购买一些股票
+    // 模拟购买股票
     @Test
     void testBuyAction() {
 
