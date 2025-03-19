@@ -15,34 +15,22 @@
  */
 package tp04.metier;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class ActionSimple extends Action {
+    private Map<Integer, Double> cours; // Map contenant les cours par jour de l'année
 
-	HashMap<Integer, double[]> yearMap;
+    public ActionSimple(String libelle, Map<Integer, Double> cours) {
+        super(libelle);
+        this.cours = cours;
+    }
 
-	public ActionSimple(String libelle) {
-		super(libelle);
-		this.yearMap = new HashMap<Integer, double[]>();
-	}
-
-	public void addDailyValue(int year, int jour, double value) {
-		if (this.yearMap.containsKey(year)) {
-			this.yearMap.get(year)[jour] = value;
-		} else {
-			double[] values = new double[365];
-			values[jour] = value;
-			this.yearMap.put(year, values);
-		}
-	}
-
-	@Override
-	public double getValue(int jour, int year) throws Exception {
-		if (this.yearMap.containsKey(year)) {
-			return this.yearMap.get(year)[jour];
-		} else {
-			throw new Exception("No value for this year");
-		}
-	}
-
+    @Override
+    public double getValue(int jour, int year) throws Exception {
+        if (cours.containsKey(jour)) {
+            return cours.get(jour);
+        } else {
+            throw new Exception("Cours non disponible pour le jour " + jour + " de l'année " + year);
+        }
+    }
 }

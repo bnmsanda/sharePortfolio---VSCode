@@ -25,9 +25,7 @@ public class Portefeuille {
 		this.myActions = new ArrayList<Action>();
 	}
 
-	public void buyNewAction(String libelle) {
-		this.myActions.add(new ActionSimple(libelle));
-	}
+	
 
 	public void buyExistingAction(Action a) {
 		this.myActions.add(a);
@@ -39,7 +37,6 @@ public class Portefeuille {
         System.out.println("Cette action n'est pas dans le portefeuille.");
     }
 }
-
 	public double sellAction(Action a, int year, int day) throws Exception {
 		double value = this.myActions.get(this.myActions.indexOf(a)).getValue(day, year);
 		this.myActions.remove(a);
