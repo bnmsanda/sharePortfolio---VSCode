@@ -29,7 +29,7 @@ public class ActionComposee extends Action {
 		this.shares = new HashMap<>();
 	}
 
-	public void addACtion(ActionSimple a, int percentage) {
+	public void addAction(ActionSimple a, int percentage) {
 		if (this.shares.containsKey(a)) {
 			this.shares.put(a, percentage + this.shares.get(a));
 		} else {

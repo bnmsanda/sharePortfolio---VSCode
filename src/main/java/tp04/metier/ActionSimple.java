@@ -28,10 +28,10 @@ public class ActionSimple extends Action {
 
 	public void addDailyValue(int year, int jour, double value) {
 		if (this.yearMap.containsKey(year)) {
-			this.yearMap.get(year)[jour] = value;
+			this.yearMap.get(year)[jour-1] = value;
 		} else {
 			double[] values = new double[365];
-			values[jour] = value;
+			values[jour-1] = value;
 			this.yearMap.put(year, values);
 		}
 	}

@@ -26,8 +26,17 @@ public class Portefeuille {
 		this.myActions = new HashMap<>();
 	}
 
-	public void buyAction(String libelle, int quantite) {
-		ActionSimple action = new ActionSimple(libelle);
+	public Map<Action, Integer> getMyActions() {
+        return myActions;
+    }
+
+	public void buyAction(String libelle, int quantite, boolean isComposee) {
+		Action action;
+		if(isComposee){
+			action = new ActionComposee(libelle);
+		} else {
+			action = new ActionSimple(libelle);
+		}
         this.myActions.put(action, this.myActions.getOrDefault(action, 0) + quantite);
 	}
 
