@@ -26,13 +26,13 @@ public class ActionSimple extends Action {
 		this.yearMap = new HashMap<>();
 	}
 
-	public void addDailyValue(int year, int jour, double value) {
-		if (this.yearMap.containsKey(year)) {
-			this.yearMap.get(year)[jour-1] = value;
+	public void addDailyValue(int annee, int jour, double value) {
+		if (this.yearMap.containsKey(annee)) {
+			this.yearMap.get(annee)[jour-1] = value;
 		} else {
 			double[] values = new double[365];
 			values[jour-1] = value;
-			this.yearMap.put(year, values);
+			this.yearMap.put(annee, values);
 		}
 	}
 
