@@ -16,6 +16,7 @@
 package tp04.metier;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class ActionSimple extends Action {
 
@@ -37,11 +38,11 @@ public class ActionSimple extends Action {
 	}
 
 	@Override
-	public double getValue(int jour, int year) throws Exception {
+	public double getValue(int jour, int year) throws NoSuchElementException {
 		if (this.yearMap.containsKey(year)) {
 			return this.yearMap.get(year)[jour];
 		} else {
-			throw new Exception("No value for this year");
+			throw new NoSuchElementException("No value for this year");
 		}
 	}
 

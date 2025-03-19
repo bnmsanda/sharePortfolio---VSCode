@@ -15,29 +15,37 @@
  */
 package tp04.metier;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class Portefeuille {
 
-	ArrayList<Action> myActions;
+	HashMap<Action, Integer> myPortefeuille;
 
 	public Portefeuille() {
-		this.myActions = new ArrayList<Action>();
+		this.myPortefeuille = new HashMap<Action, Integer>();
 	}
 
-	public void buyNewAction(String libelle) {
-		this.myActions.add(new ActionSimple(libelle));
+	public void vendreAction(Action a, Integer qt) throws NoSuchElementException,IllegalArgumentException 
+	{
+		if (!myPortefeuille.containsKey(a)) {
+			throw new NoSuchElementException("L'action n'est pas présente dans le portefeuille");
+		}
+		int currentQuantite = myPortefeuille.get(a);
+
+		if (currentQuantite < qt) {
+			throw new IllegalArgumentException("Quantité insuffisante pour la vente");
+		}
+
+		if (currentQuantite == qt){
+			myPortefeuille.remove(a);
+		}else{
+			myPortefeuille.put(a, currentQuantite-qt);
+		}
+
 	}
 
-	public void buyExistingAction(Action a) {
-		this.myActions.add(a);
-	}
 
-	public double sellAction(Action a, int year, int day) throws Exception {
-		double value = this.myActions.get(this.myActions.indexOf(a)).getValue(day, year);
-		this.myActions.remove(a);
-		return value;
-	}
 
 }
 
