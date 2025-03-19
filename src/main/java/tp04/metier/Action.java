@@ -24,6 +24,15 @@ public abstract class Action {
 		this.libelle = libelle;
 	}
 
+	/**
+	 * Returns the label of the action.
+	 * 
+	 * @return the label of the action
+	 */
+	public String getLibelle() {
+		return libelle;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(libelle);

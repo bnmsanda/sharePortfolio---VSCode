@@ -18,6 +18,7 @@ package tp04.metier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+//test2
 /**
  *
  * @author David Navarre &lt;David.Navarre at irit.fr&gt;
@@ -38,6 +39,11 @@ class ActionTest {
 
         public float valeur(Jour j) {
             return 0.0F;
+        }
+
+        @Override
+        public double getValue(int jour, int year) throws Exception {
+            return 0.0;
         }
     }
 
