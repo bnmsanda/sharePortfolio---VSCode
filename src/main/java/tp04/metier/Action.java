@@ -15,17 +15,11 @@
  */
 package tp04.metier;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public abstract class Action {
 	String libelle;
-    public void afficherValeur(int jour, int year) {
-        try {
-            System.out.println("Valeur de l'action " + libelle + " au jour " + jour + " de l'année " + year + " : " + getValue(jour, year));
-        } catch (Exception e) {
-            System.out.println("Erreur: " + e.getMessage());
-        }
-    }
 
 	public Action(String libelle) {
 		this.libelle = libelle;
@@ -48,5 +42,10 @@ public abstract class Action {
 		return Objects.equals(libelle, other.libelle);
 	}
 
-	public abstract double getValue(int jour, int year) throws Exception;
+	public abstract double getValue(int jour, int year) throws NoSuchElementException, Exception;
+
+    public void afficherValeur(int day, int year) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'afficherValeur'");
+    }
 }

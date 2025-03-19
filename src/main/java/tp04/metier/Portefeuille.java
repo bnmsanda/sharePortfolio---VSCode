@@ -26,7 +26,7 @@ public class Portefeuille {
 	}
 
 	public void buyNewAction(String libelle) {
-		this.myActions.add(new ActionSimple(libelle));
+		this.myActions.add(new ActionSimple(libelle, null));
 	}
 
 	public void buyExistingAction(Action a) {
