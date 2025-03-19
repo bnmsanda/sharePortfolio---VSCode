@@ -16,6 +16,7 @@
 package tp04.metier;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class ActionComposee extends Action {
 
@@ -38,7 +39,7 @@ public class ActionComposee extends Action {
 	}
 
 	@Override
-	public double getValue(int jour, int year) throws Exception {
+	public double getValue(int jour, int year) throws NoSuchElementException {
 		double value = 0;
 		for (Action a : this.shares.keySet()) {
 			value = value + a.getValue(jour, year) * this.shares.get(a);
