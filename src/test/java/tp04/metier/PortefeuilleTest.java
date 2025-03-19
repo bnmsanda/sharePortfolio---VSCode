@@ -42,6 +42,12 @@ public class PortefeuilleTest {
         action4 = new ActionSimple("France 3");
         action5 = new ActionSimple("France 5");
 
+        action1.addDailyValue(2025, 1, 100.0);
+        action2.addDailyValue(2025, 1, 50.0);
+        action3.addDailyValue(2025, 1, 30.0);
+        action4.addDailyValue(2025, 1, 60.0);
+        action5.addDailyValue(2025, 1, 80.0);
+
         actionComposee = new ActionComposee("France télévision");
 
         actionComposee.addAction(action1, 35); 
@@ -52,6 +58,7 @@ public class PortefeuilleTest {
     // 模拟购买一些股票
     @Test
     void testBuyAction() {
+
         portefeuille.buyAction("France 2", 10, false);
 
         assertEquals(10, portefeuille.getMyActions().get(action1));
@@ -60,8 +67,8 @@ public class PortefeuilleTest {
     //模拟卖出股票
     @Test
     void testSellAction() throws Exception {
+
         portefeuille.buyAction("France 2", 10, false);
-        action1.addDailyValue(2025, 1, 100.0);
         double value = portefeuille.sellAction(action1, 1, 2025);
 
         assertEquals(1000.0, value); 
@@ -69,13 +76,10 @@ public class PortefeuilleTest {
 
     @Test
     void testGetValueTotal() throws Exception {
+
         portefeuille.buyAction("France 2", 10, false);
         portefeuille.buyAction("Tisseo", 4, false);
         portefeuille.buyAction("Total", 13, false);
-
-        action1.addDailyValue(2025, 1, 100.0);
-        action2.addDailyValue(2025, 1, 50.0);
-        action3.addDailyValue(2025, 1, 30.0);
 
         double totalValue = portefeuille.getValueTotal(1, 2025);
 
@@ -86,10 +90,6 @@ public class PortefeuilleTest {
     void testGetValueTotalWithComposeAction() throws Exception {
 
         portefeuille.buyAction("France télévision", 1, true);
-
-        action1.addDailyValue(2025, 1, 100.0);
-        action4.addDailyValue(2025, 1, 60.0);
-        action5.addDailyValue(2025, 1, 80.0);
 
         double value = portefeuille.getValueTotal(1, 2025);
 
