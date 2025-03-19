@@ -15,35 +15,24 @@
  */
 package tp04.metier;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class ActionComposee extends Action {
+    private Map<ActionSimple, Double> composition; // Map contenant les actions simples et leurs proportions
 
-	/**
-	 * Associate to an action its percentage. For exemple, a value of 0.5 means 50%.
-	 */
-	HashMap<Action, Integer> shares;
+    public ActionComposee(String libelle, Map<ActionSimple, Double> composition) {
+        super(libelle);
+        this.composition = composition;
+    }
 
-	public ActionComposee(String libelle) {
-		super(libelle);
-		this.shares = new HashMap<Action, Integer>();
-	}
-
-	public void addACtion(Action a, int percentage) {
-		if (this.shares.containsKey(a)) {
-			this.shares.put(a, percentage + this.shares.get(a));
-		} else {
-			this.shares.put(a, percentage);
-		}
-	}
-
-	@Override
-	public double getValue(int jour, int year) throws Exception {
-		double value = 0;
-		for (Action a : this.shares.keySet()) {
-			value = value + a.getValue(jour, year) * this.shares.get(a);
-		}
-		return value;
-	}
-
+    @Override
+    public double getValue(int jour, int year) throws Exception {
+        double valeurTotale = 0.0;
+        for (Map.Entry<ActionSimple, Double> entry : composition.entrySet()) {
+            ActionSimple actionSimple = entry.getKey();
+            double proportion = entry.getValue();
+            valeurTotale += actionSimple.getValue(jour, year) * proportion;
+        }
+        return valeurTotale;
+    }
 }
