@@ -77,7 +77,16 @@ public class PortefeuilleTest {
     }
 
     @Test
-    void testGetValueTotal() throws Exception {
+    public void testSellAction_insufficientQuantity() {
+        portefeuille.buyAction(action1, 5);
+        Exception exception = assertThrows(Exception.class, () -> {
+            portefeuille.sellAction(action1, 10, 1, 2025);
+        });
+        assertEquals("Quantité à vendre supérieure à celle détenue.", exception.getMessage());
+    }
+
+    @Test
+    public void testGetValueTotal() throws Exception {
         portefeuille.buyAction(action1, 10);
         portefeuille.buyAction(action2, 4);
         portefeuille.buyAction(action3, 13);
@@ -86,4 +95,21 @@ public class PortefeuilleTest {
         double totalValue = portefeuille.getValueTotal(1, 2025);
         assertEquals(1667.0, totalValue);
     }
+
+    @Test
+    public void testGetValue_noValueAnnee() {
+        portefeuille.buyAction(action1, 10); 
+        Exception exception = assertThrows(Exception.class, () -> {
+            action1.getValue(1, 2024); 
+        });
+        assertEquals("No value for this year", exception.getMessage()); 
+    }
+
+    @Test
+    public void testActionComposee_valueCalculation() throws Exception {
+        double calculatedValue = actionComposee.getValue(1, 2025);
+        double expectedValue = (100.0 * 0.35) + (60.0 * 0.50) + (80.0 * 0.15); 
+        assertEquals(expectedValue, calculatedValue); 
+    }
+
 }
