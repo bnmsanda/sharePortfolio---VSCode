@@ -112,4 +112,8 @@ public class PortefeuilleTest {
         assertEquals(expectedValue, calculatedValue); 
     }
 
+    @Test
+    public void testActionValue() throws Exception{
+        assertEquals(100.0, action1.getValue(1, 2025));
+    }
 }
