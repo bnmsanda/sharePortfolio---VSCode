@@ -1,25 +1,25 @@
 /*
- * Copyright 2025 David Navarre &lt;David.Navarre at irit.fr&gt;.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2025 David Navarre &lt;David.Navarre at irit.fr&gt;.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 package tp04.metier;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 public class PortefeuilleTest {
     
@@ -33,7 +33,7 @@ public class PortefeuilleTest {
 
     // 每次测试前都会执行这个方法，创建新的投资组合和股票
     @BeforeEach
-    void setUp() {
+    public void setUp() throws Exception{
         portefeuille = new Portefeuille();
         
         action1 = new ActionSimple("France 2");
@@ -49,50 +49,38 @@ public class PortefeuilleTest {
         action5.addDailyValue(2025, 1, 80.0);
 
         actionComposee = new ActionComposee("France télévision");
-
         actionComposee.addAction(action1, 35); 
         actionComposee.addAction(action4, 50);
         actionComposee.addAction(action5, 15); 
     }
 
-    // 模拟购买股票
     @Test
-    void testBuyAction() {
-
-        portefeuille.buyAction("France 2", 10, false);
-
+    public void testBuyAction() {
+        portefeuille.buyAction("France 2", 10);
         assertEquals(10, portefeuille.getMyActions().get(action1));
     }
 
-    //模拟卖出股票
     @Test
-    void testSellAction() throws Exception {
-
-        portefeuille.buyAction("France 2", 10, false);
-        double value = portefeuille.sellAction(action1, 1, 2025);
-
+    public void testSellAction() throws Exception {
+        portefeuille.buyAction("France 2", 10);
+        double value = portefeuille.sellAction(action1, 2, 1, 2025);
         assertEquals(1000.0, value); 
     }
 
     @Test
     void testGetValueTotal() throws Exception {
-
-        portefeuille.buyAction("France 2", 10, false);
-        portefeuille.buyAction("Tisseo", 4, false);
-        portefeuille.buyAction("Total", 13, false);
+        portefeuille.buyAction("France 2", 10);
+        portefeuille.buyAction("Tisseo", 4);
+        portefeuille.buyAction("Total", 13);
 
         double totalValue = portefeuille.getValueTotal(1, 2025);
-
         assertEquals(1590.0, totalValue);
     }
 
     @Test
     void testGetValueTotalWithComposeAction() throws Exception {
-
-        portefeuille.buyAction("France télévision", 1, true);
-
+        portefeuille.buyAction("France télévision", 1);
         double value = portefeuille.getValueTotal(1, 2025);
-
         assertEquals(77.0, value);
     }
 }

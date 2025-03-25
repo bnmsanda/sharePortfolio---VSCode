@@ -30,24 +30,46 @@ public class Portefeuille {
         return myActions;
     }
 
-	public void buyAction(String libelle, int quantite, boolean isComposee) {
-		Action action;
-		if(isComposee){
-			action = new ActionComposee(libelle);
-		} else {
-			action = new ActionSimple(libelle);
+	private Action findActionByLibelle(String libelle) {
+		for (Action a : this.myActions.keySet()) {
+			if (a.libelle.equals(libelle)) {
+				return a;
+			}
 		}
-        this.myActions.put(action, this.myActions.getOrDefault(action, 0) + quantite);
-	}
+		return null;
+	}	
 
-	public double sellAction(Action a, int jour, int annee) throws Exception {
+	public void buyAction(String libelle, int quantite) {
+		Action action = findActionByLibelle(libelle);
+	
+		if (action == null) { 
+			action = new ActionSimple(libelle); 
+			this.myActions.put(action, quantite);
+		} else {
+			this.myActions.put(action, this.myActions.get(action) + quantite);
+		}
+	}	
+
+	public double sellAction(Action a, int quantite, int jour, int annee) throws Exception {
 		if (!this.myActions.containsKey(a)) {
-            throw new Exception("Action n'existe pas en portefeuille.");
-        }
-		double value = this.myActions.get(a) * a.getValue(jour, annee);
-		this.myActions.remove(a);
+			throw new Exception("Action n'existe pas en portefeuille.");
+		}
+		
+		int currentQuantity = this.myActions.get(a);
+		if (quantite > currentQuantity) {
+			throw new Exception("Quantité à vendre supérieure à celle détenue.");
+		}
+	
+		double value = quantite * a.getValue(jour, annee);
+		
+		if (quantite == currentQuantity) {
+			this.myActions.remove(a);
+		} else {
+			this.myActions.put(a, currentQuantity - quantite);
+		}
+	
 		return value;
-	}
+	}	
 
 	public double getValueTotal(int jour, int annee) throws Exception {
 		double total = 0;

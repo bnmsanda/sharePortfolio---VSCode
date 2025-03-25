@@ -41,7 +41,7 @@ public class ActionComposee extends Action {
 	public double getValue(int jour, int year) throws Exception {
 		double value = 0;
 		for (ActionSimple a : this.shares.keySet()) {
-			value = value + a.getValue(jour, year) * (this.shares.get(a)/100);
+			value = value + a.getValue(jour, year) * (this.shares.get(a)/100.0);
 		}
 		return value;
 	}

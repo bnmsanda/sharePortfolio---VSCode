@@ -26,14 +26,17 @@ public class ActionSimple extends Action {
 		this.yearMap = new HashMap<>();
 	}
 
-	public void addDailyValue(int annee, int jour, double value) {
-		if (this.yearMap.containsKey(annee)) {
-			this.yearMap.get(annee)[jour-1] = value;
-		} else {
-			double[] values = new double[365];
-			values[jour-1] = value;
-			this.yearMap.put(annee, values);
+	public void addDailyValue(int annee, int jour, double value) throws Exception{
+		int daysNB = (annee % 4 == 0) ? 366 : 365;
+
+		if (jour < 1 || jour > daysNB) {
+			throw new Exception("Numéro du jour invalide pour cette année.");
 		}
+
+		if (!this.yearMap.containsKey(annee)) {
+			this.yearMap.put(annee, new double[daysNB]);
+		}
+		this.yearMap.get(annee)[jour - 1] = value;
 	}
 
 	@Override
