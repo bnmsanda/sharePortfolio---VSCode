@@ -30,25 +30,14 @@ public class Portefeuille {
         return myActions;
     }
 
-	private Action findActionByLibelle(String libelle) {
-		for (Action a : this.myActions.keySet()) {
-			if (a.libelle.equals(libelle)) {
-				return a;
-			}
-		}
-		return null;
-	}	
-
-	public void buyAction(String libelle, int quantite) {
-		Action action = findActionByLibelle(libelle);
-	
-		if (action == null) { 
-			action = new ActionSimple(libelle); 
-			this.myActions.put(action, quantite);
+	public void buyAction(Action a, int quantite) {
+		if (this.myActions.containsKey(a)) {
+			this.myActions.put(a, this.myActions.get(a) + quantite);
 		} else {
-			this.myActions.put(action, this.myActions.get(action) + quantite);
+			this.myActions.put(a, quantite);
 		}
-	}	
+	}
+	
 
 	public double sellAction(Action a, int quantite, int jour, int annee) throws Exception {
 		if (!this.myActions.containsKey(a)) {

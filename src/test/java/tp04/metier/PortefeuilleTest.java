@@ -56,13 +56,13 @@ public class PortefeuilleTest {
 
     @Test
     public void testBuyAction() {
-        portefeuille.buyAction("France 2", 10);
+        portefeuille.buyAction(action1, 10);
         assertEquals(10, portefeuille.getMyActions().get(action1));
     }
 
     @Test
     public void testSellAction_partie() throws Exception {
-        portefeuille.buyAction("France 2", 10);
+        portefeuille.buyAction(action1, 10);
         double value = portefeuille.sellAction(action1, 2, 1, 2025);
         assertEquals(200.0, value); 
         assertEquals(8, portefeuille.getMyActions().get(action1));
@@ -70,18 +70,18 @@ public class PortefeuilleTest {
 
     @Test
     public void testSellAction_tous() throws Exception {
-        portefeuille.buyAction("France 2", 10);
+        portefeuille.buyAction(action1, 10);
         double value = portefeuille.sellAction(action1, 10, 1, 2025);
         assertEquals(1000.0, value); 
-        assertEquals(0, portefeuille.getMyActions().get(action1));
+        assertFalse(portefeuille.getMyActions().containsKey(action1));
     }
 
     @Test
     void testGetValueTotal() throws Exception {
-        portefeuille.buyAction("France 2", 10);
-        portefeuille.buyAction("Tisseo", 4);
-        portefeuille.buyAction("Total", 13);
-        portefeuille.buyAction("France télévision", 1);
+        portefeuille.buyAction(action1, 10);
+        portefeuille.buyAction(action2, 4);
+        portefeuille.buyAction(action3, 13);
+        portefeuille.buyAction(actionComposee, 1);
 
         double totalValue = portefeuille.getValueTotal(1, 2025);
         assertEquals(1667.0, totalValue);
