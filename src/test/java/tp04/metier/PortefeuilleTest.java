@@ -31,6 +31,8 @@ public class PortefeuilleTest {
         portefeuille.myPortefeuille.put(actionTesla, 10); // Ajout de 10 actions Tesla
     }
         
+        
+
     
         @Test
         public void testVenteActionReussie() throws Exception {
@@ -65,4 +67,11 @@ public class PortefeuilleTest {
         });
         Assertions.assertEquals("L'action n'est pas présente dans le portefeuille", exception.getMessage());
     }
+        @Test
+        public void testVenteQuantiteNull() {
+            Assertions.assertThrows(NullPointerException.class, () -> {
+                portefeuille.vendreAction(actionTesla, null);
+            });
+        }
+    
 }
