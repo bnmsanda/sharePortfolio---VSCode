@@ -15,6 +15,7 @@
  */
 package tp04.metier;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public abstract class Action {
@@ -41,5 +42,5 @@ public abstract class Action {
 		return Objects.equals(libelle, other.libelle);
 	}
 
-	public abstract double getValue(int jour, int year) throws Exception;
+	public abstract double getValue(int jour, int year) throws NoSuchElementException;
 }
