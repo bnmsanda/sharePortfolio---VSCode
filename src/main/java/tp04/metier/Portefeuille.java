@@ -16,6 +16,7 @@
 package tp04.metier;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Portefeuille {
 
@@ -39,5 +40,12 @@ public class Portefeuille {
 		return value;
 	}
 
-}
+	public void creerActionComposee(String libelle, Map<ActionSimple, Double> composition) {
+		ActionComposee actionComposee = new ActionComposee(libelle);
+		for (Map.Entry<ActionSimple, Double> entry : composition.entrySet()) {
+			actionComposee.ajouterActionSimple(entry.getKey(), entry.getValue());
+		}
+		this.myActions.add(actionComposee);
+	}
 
+}

@@ -16,34 +16,43 @@
 package tp04.metier;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ActionComposee extends Action {
 
-	/**
-	 * Associate to an action its percentage. For exemple, a value of 0.5 means 50%.
-	 */
-	HashMap<Action, Integer> shares;
+	private final Map<ActionSimple, Double> composition; // ActionSimple et son pourcentage
 
 	public ActionComposee(String libelle) {
 		super(libelle);
-		this.shares = new HashMap<Action, Integer>();
+		this.composition = new HashMap<>();
 	}
 
-	public void addACtion(Action a, int percentage) {
-		if (this.shares.containsKey(a)) {
-			this.shares.put(a, percentage + this.shares.get(a));
-		} else {
-			this.shares.put(a, percentage);
+	/**
+	 * Ajoute une action simple à la composition avec un pourcentage donné.
+	 * 
+	 * @param actionSimple L'action simple à ajouter.
+	 * @param pourcentage  Le pourcentage de cette action dans l'action composée.
+	 * @throws IllegalArgumentException si le pourcentage est invalide.
+	 */
+	public void ajouterActionSimple(ActionSimple actionSimple, double pourcentage) {
+		if (pourcentage <= 0 || pourcentage > 100) {
+			throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 100.");
 		}
+		this.composition.put(actionSimple, pourcentage);
 	}
 
+	/**
+	 * Calcule la valeur de l'action composée en fonction des valeurs des actions
+	 * simples.
+	 */
 	@Override
 	public double getValue(int jour, int year) throws Exception {
-		double value = 0;
-		for (Action a : this.shares.keySet()) {
-			value = value + a.getValue(jour, year) * this.shares.get(a);
+		double valeurTotale = 0.0;
+		for (Map.Entry<ActionSimple, Double> entry : composition.entrySet()) {
+			ActionSimple actionSimple = entry.getKey();
+			double pourcentage = entry.getValue();
+			valeurTotale += (actionSimple.getValue(jour, year) * pourcentage / 100);
 		}
-		return value;
+		return valeurTotale;
 	}
-
 }
