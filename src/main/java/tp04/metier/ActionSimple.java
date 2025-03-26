@@ -30,7 +30,7 @@ public class ActionSimple extends Action {
 		int daysNB = (annee % 4 == 0) ? 366 : 365;
 
 		if (jour < 1 || jour > daysNB) {
-			throw new Exception("Numéro du jour invalide pour cette année.");
+			ActionException.throwInvalidJour();
 		}
 
 		if (!this.yearMap.containsKey(annee)) {
@@ -41,11 +41,10 @@ public class ActionSimple extends Action {
 
 	@Override
 	public double getValue(int jour, int year) throws Exception {
-		if (this.yearMap.containsKey(year)) {
-			return this.yearMap.get(year)[jour-1];
-		} else {
-			throw new Exception("No value for this year");
-		}
+		if (!this.yearMap.containsKey(year)) {
+			ActionException.throwNoValueForAnnee();
+		} 
+		return this.yearMap.get(year)[jour-1];
 	}
 
 }

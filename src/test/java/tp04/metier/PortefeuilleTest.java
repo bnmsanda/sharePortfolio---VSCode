@@ -49,9 +49,9 @@ public class PortefeuilleTest {
         action5.addDailyValue(2025, 1, 80.0);
 
         actionComposee = new ActionComposee("France télévision");
-        actionComposee.addAction(action1, 35); 
-        actionComposee.addAction(action4, 50);
-        actionComposee.addAction(action5, 15); 
+        actionComposee.addAction(action1, 35.0); 
+        actionComposee.addAction(action4, 50.0);
+        actionComposee.addAction(action5, 15.0); 
 
         portefeuille.buyAction(action1, 10);
         portefeuille.buyAction(action2, 4);
@@ -97,7 +97,7 @@ public class PortefeuilleTest {
         Exception exception = assertThrows(Exception.class, () -> {
             action1.getValue(1, 2024); 
         });
-        assertEquals("No value for this year", exception.getMessage()); 
+        assertEquals("Aucune valeur trouvée pour l'année.", exception.getMessage()); 
     }
 
     @Test

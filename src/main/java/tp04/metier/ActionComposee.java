@@ -22,14 +22,14 @@ public class ActionComposee extends Action {
 	/**
 	 * Associate to an action its percentage. For exemple, a value of 0.5 means 50%.
 	 */
-	HashMap<ActionSimple, Integer> shares;
+	HashMap<ActionSimple, Double> shares;
 
 	public ActionComposee(String libelle) {
 		super(libelle);
 		this.shares = new HashMap<>();
 	}
 
-	public void addAction(ActionSimple a, int percentage) {
+	public void addAction(ActionSimple a, double percentage) {
 		if (this.shares.containsKey(a)) {
 			this.shares.put(a, percentage + this.shares.get(a));
 		} else {
@@ -39,7 +39,7 @@ public class ActionComposee extends Action {
 
 	@Override
 	public double getValue(int jour, int year) throws Exception {
-		double value = 0;
+		double value = 0.0;
 		for (ActionSimple a : this.shares.keySet()) {
 			value = value + a.getValue(jour, year) * (this.shares.get(a)/100.0);
 		}
