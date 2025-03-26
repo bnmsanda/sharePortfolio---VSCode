@@ -17,6 +17,7 @@ package tp04.metier;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class ActionSimple extends Action {
     private Map<Integer, double[]> historiquePrix;
@@ -28,23 +29,32 @@ public class ActionSimple extends Action {
 
     @Override
     public void ajouterValeur(int year, int jour, double valeur) {
+        if (jour < 0 || jour >= 366) {
+            throw new IllegalArgumentException("Jour invalide : " + jour);
+        }
         historiquePrix.computeIfAbsent(year, k -> new double[366])[jour] = valeur;
     }
 
     @Override
-public double getValue(int jour, int year) throws IllegalArgumentException {
-    if (historiquePrix.containsKey(year) && historiquePrix.get(year)[jour] != 0) {
-        return historiquePrix.get(year)[jour];
+    public double getValue(int jour, int year) {
+        if (!historiquePrix.containsKey(year)) {
+            throw new NoSuchElementException("Aucune donnée pour l'année " + year);
+        }
+        if (jour < 0 || jour >= 366) {
+            throw new IllegalArgumentException("Jour invalide : " + jour);
+        }
+        double valeur = historiquePrix.get(year)[jour];
+        if (valeur == 0) {
+            throw new NoSuchElementException("Aucune valeur disponible pour " + libelle + " au jour " + jour);
+        }
+        return valeur;
     }
-    throw new IllegalArgumentException("Aucune valeur disponible pour " + libelle + " au jour " + jour);
-}
-
 
     public void enrgCours(int jour, int year, double prix) {
         ajouterValeur(year, jour, prix);
     }
 
-    public double valeur(int jour, int year) throws Exception {
+    public double valeur(int jour, int year) {
         return getValue(jour, year);
     }
 }

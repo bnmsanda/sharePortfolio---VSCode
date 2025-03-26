@@ -41,34 +41,36 @@ public class Portefeuille {
     private void acheterAction(Action action, int quantite, double prix, int jour, int year) {
         actionsPossedees.merge(action, quantite, Integer::sum);
         if (action instanceof ActionSimple && prix > 0) {
-            ((ActionSimple) action).ajouterValeur(year, jour, prix);
+            try {
+                ((ActionSimple) action).ajouterValeur(year, jour, prix);
+            } catch (Exception e) {
+                System.err.println("Erreur d'enregistrement de prix : " + e.getMessage());
+            }
         }
         historiqueTransactions.computeIfAbsent(action, k -> new ArrayList<>())
             .add("Jour " + jour + ", Année " + year + ": ACHAT de " + quantite + " à " + prix + "€");
     }
 
-    public double vendre(Action action, int quantite, int jour, int year) throws Exception {
+    public double vendre(Action action, int quantite, int jour, int year) {
         return vendreAction(action, quantite, jour, year);
     }
-    
 
-    private double vendreAction(Action action, int quantite, int jour, int year) throws Exception {
+    private double vendreAction(Action action, int quantite, int jour, int year) {
         if (!actionsPossedees.containsKey(action) || actionsPossedees.get(action) < quantite) {
             throw new IllegalArgumentException("Pas assez d'actions pour vendre !");
         }
-    
+
         double prixVente = action.getValue(jour, year);
         actionsPossedees.put(action, actionsPossedees.get(action) - quantite);
         if (actionsPossedees.get(action) == 0) {
             actionsPossedees.remove(action);
         }
-    
+
         historiqueTransactions.computeIfAbsent(action, k -> new ArrayList<>())
             .add("Jour " + jour + ", Année " + year + ": VENTE de " + quantite + " à " + prixVente + "€");
-    
+
         return prixVente * quantite;
     }
-    
 
     public List<String> getHistoriqueTransactions(Action action) {
         return historiqueTransactions.getOrDefault(action, Collections.emptyList());

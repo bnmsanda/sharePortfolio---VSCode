@@ -17,6 +17,8 @@ package tp04.metier;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.IllegalFormatException;
+import java.util.IllegalStateException;
 
 public class ActionComposee extends Action {
     private Map<Action, Integer> composants;
@@ -35,11 +37,14 @@ public class ActionComposee extends Action {
 
     @Override
     public void ajouterValeur(int year, int jour, double valeur) {
-        throw new UnsupportedOperationException("Les valeurs sont dérivées des actions composées.");
+        throw new UnsupportedOperationException("Impossible d'ajouter une valeur à une action composée.");
     }
 
     @Override
-    public double getValue(int jour, int year) throws Exception {
+    public double getValue(int jour, int year) {
+        if (composants.isEmpty()) {
+            throw new IllegalStateException("Aucun composant défini pour l'action composée.");
+        }
         double valeurTotale = 0;
         for (Map.Entry<Action, Integer> entry : composants.entrySet()) {
             valeurTotale += (entry.getKey().getValue(jour, year) * entry.getValue()) / 100.0;
@@ -47,7 +52,7 @@ public class ActionComposee extends Action {
         return valeurTotale;
     }
 
-    public double valeur(int jour, int year) throws Exception {
+    public double valeur(int jour, int year) {
         return getValue(jour, year);
     }
 }
