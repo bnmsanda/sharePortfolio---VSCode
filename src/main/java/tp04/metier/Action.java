@@ -19,13 +19,15 @@ import java.util.Objects;
 
 public abstract class Action {
 	String libelle;
-    public void afficherValeur(int jour, int year) {
-        try {
-            System.out.println("Valeur de l'action " + libelle + " au jour " + jour + " de l'année " + year + " : " + getValue(jour, year));
-        } catch (Exception e) {
-            System.out.println("Erreur: " + e.getMessage());
-        }
-    }
+
+	public void afficherValeur(int jour, int year) {
+		try {
+			System.out.println("Valeur de l'action " + libelle + " au jour " + jour + " de l'année " + year + " : "
+					+ getValue(jour, year));
+		} catch (Exception e) {
+			System.out.println("Erreur: " + e.getMessage());
+		}
+	}
 
 	public Action(String libelle) {
 		this.libelle = libelle;
