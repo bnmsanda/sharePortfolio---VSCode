@@ -18,7 +18,6 @@ package tp04.metier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.IllegalFormatException;
-import java.util.IllegalStateException;
 
 public class ActionComposee extends Action {
     private Map<Action, Integer> composants;
