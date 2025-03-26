@@ -35,21 +35,21 @@ public class PortefeuilleTest {
         @Test
         public void testVenteActionReussie() throws Exception {
     
-             // 测试成功出售 5 股 Tesla
+             
              portefeuille.vendreAction(actionTesla, 5);
             Assertions.assertEquals(5, portefeuille.myPortefeuille.get(actionTesla));
         }
     
     @Test
     public void testVenteActionToutVendre() throws Exception {
-        // 测试成功出售全部 10 股 Tesla
+        
         portefeuille.vendreAction(actionTesla, 10);
         Assertions.assertFalse(portefeuille.myPortefeuille.containsKey(actionTesla));
     }
 
     @Test
     public void testVenteQuantiteInsuffisante() {
-        // 测试出售超过持有数量（异常情况）
+        
         Exception exception = Assertions.assertThrows(Exception.class, () -> {
             portefeuille.vendreAction(actionTesla, 15);
         });
@@ -58,18 +58,19 @@ public class PortefeuilleTest {
 
     @Test
     public void testVenteActionInexistante() {
-        // 测试出售不在持仓中的股票（异常情况）
+        
         ActionSimple actionApple = new ActionSimple("Apple");
         Exception exception = Assertions.assertThrows(Exception.class, () -> {
             portefeuille.vendreAction(actionApple, 5);
         });
         Assertions.assertEquals("L'action n'est pas présente dans le portefeuille", exception.getMessage());
     }
-        @Test
-        public void testVenteQuantiteNull() {
-            Assertions.assertThrows(NullPointerException.class, () -> {
-                portefeuille.vendreAction(actionTesla, null);
-            });
-        }
+    
+    @Test
+    public void testVenteQuantiteNull() {
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            portefeuille.vendreAction(actionTesla, null);
+        });
+    }
     
 }
