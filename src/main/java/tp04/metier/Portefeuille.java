@@ -39,14 +39,14 @@ public class Portefeuille {
 	}
 	
 
-	public double sellAction(Action a, int quantite, int jour, int annee) throws Exception{
+	public double sellAction(Action a, int quantite, int jour, int annee) throws Exception {
 		if (!this.myActions.containsKey(a)) {
-			ActionException.throwActionNotFound();
+			throw new Exception("Action n'existe pas en portefeuille.");
 		}
 		
 		int currentQuantity = this.myActions.get(a);
 		if (quantite > currentQuantity) {
-			ActionException.throwInsufficientQuantity();
+			throw new Exception("Quantité à vendre supérieure à celle détenue.");
 		}
 	
 		double value = quantite * a.getValue(jour, annee);
