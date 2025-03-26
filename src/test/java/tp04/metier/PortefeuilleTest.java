@@ -52,17 +52,20 @@ public class PortefeuilleTest {
         actionComposee.addAction(action1, 35); 
         actionComposee.addAction(action4, 50);
         actionComposee.addAction(action5, 15); 
+
+        portefeuille.buyAction(action1, 10);
+        portefeuille.buyAction(action2, 4);
+        portefeuille.buyAction(action3, 13);
+        portefeuille.buyAction(actionComposee, 1);
     }
 
     @Test
     public void testBuyAction() {
-        portefeuille.buyAction(action1, 10);
         assertEquals(10, portefeuille.getMyActions().get(action1));
     }
 
     @Test
     public void testSellAction_partie() throws Exception {
-        portefeuille.buyAction(action1, 10);
         double value = portefeuille.sellAction(action1, 2, 1, 2025);
         assertEquals(200.0, value); 
         assertEquals(8, portefeuille.getMyActions().get(action1));
@@ -70,7 +73,6 @@ public class PortefeuilleTest {
 
     @Test
     public void testSellAction_tous() throws Exception {
-        portefeuille.buyAction(action1, 10);
         double value = portefeuille.sellAction(action1, 10, 1, 2025);
         assertEquals(1000.0, value); 
         assertFalse(portefeuille.getMyActions().containsKey(action1));
@@ -78,27 +80,20 @@ public class PortefeuilleTest {
 
     @Test
     public void testSellAction_insufficientQuantity() {
-        portefeuille.buyAction(action1, 5);
         Exception exception = assertThrows(Exception.class, () -> {
-            portefeuille.sellAction(action1, 10, 1, 2025);
+            portefeuille.sellAction(action1, 12, 1, 2025);
         });
         assertEquals("Quantité à vendre supérieure à celle détenue.", exception.getMessage());
     }
 
     @Test
     public void testGetValueTotal() throws Exception {
-        portefeuille.buyAction(action1, 10);
-        portefeuille.buyAction(action2, 4);
-        portefeuille.buyAction(action3, 13);
-        portefeuille.buyAction(actionComposee, 1);
-
         double totalValue = portefeuille.getValueTotal(1, 2025);
         assertEquals(1667.0, totalValue);
     }
 
     @Test
     public void testGetValue_noValueAnnee() {
-        portefeuille.buyAction(action1, 10); 
         Exception exception = assertThrows(Exception.class, () -> {
             action1.getValue(1, 2024); 
         });
