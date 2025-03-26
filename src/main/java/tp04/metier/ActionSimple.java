@@ -16,6 +16,7 @@
 package tp04.metier;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class ActionSimple extends Action {
 
@@ -30,19 +31,18 @@ public class ActionSimple extends Action {
 		int daysNB = (annee % 4 == 0) ? 366 : 365;
 
 		if (jour < 1 || jour > daysNB) {
-			throw new Exception("Numéro du jour invalide pour cette année.");
+			throw new NoSuchElementException("Numéro du jour invalide pour cette année.");
 		}
 
-		if (!this.yearMap.containsKey(annee)) {
-			this.yearMap.put(annee, new double[daysNB]);
-		}
+		this.yearMap.computeIfAbsent(annee, k -> new double[daysNB]);
+
 		this.yearMap.get(annee)[jour - 1] = value;
 	}
 
 	@Override
 	public double getValue(int jour, int year) throws Exception {
 		if (!this.yearMap.containsKey(year)) {
-			throw new Exception("Aucune valeur trouvée pour l'année.");
+			throw new NoSuchElementException("Aucune valeur trouvée pour l'année.");
 		}
 		return this.yearMap.get(year)[jour-1];
 	}

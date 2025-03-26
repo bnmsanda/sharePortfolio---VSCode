@@ -16,6 +16,7 @@
 package tp04.metier;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.HashMap;
 
 public class Portefeuille {
@@ -41,12 +42,12 @@ public class Portefeuille {
 
 	public double sellAction(Action a, int quantite, int jour, int annee) throws Exception {
 		if (!this.myActions.containsKey(a)) {
-			throw new Exception("Action n'existe pas en portefeuille.");
+			throw new NoSuchElementException("Action n'existe pas en portefeuille.");
 		}
 		
 		int currentQuantity = this.myActions.get(a);
 		if (quantite > currentQuantity) {
-			throw new Exception("Quantité à vendre supérieure à celle détenue.");
+			throw new NoSuchElementException("Quantité à vendre supérieure à celle détenue.");
 		}
 	
 		double value = quantite * a.getValue(jour, annee);

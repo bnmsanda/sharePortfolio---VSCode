@@ -60,9 +60,32 @@ public class PortefeuilleTest {
     }
 
     @Test
-    public void testBuyAction() {
+    public void testAddDailyValue_plus() throws Exception {
+        Exception exception = assertThrows(Exception.class, () -> {
+            action1.addDailyValue(2025, 389, 100.0);
+        });
+        assertEquals("Numéro du jour invalide pour cette année.", exception.getMessage());
+    }
+
+    @Test
+    public void testAddDailyValue_moin() throws Exception {
+        Exception exception = assertThrows(Exception.class, () -> {
+            action1.addDailyValue(2025, 0, 100.0);
+        });
+        assertEquals("Numéro du jour invalide pour cette année.", exception.getMessage());
+    }
+
+    @Test
+    public void testBuyAction_nouveau() {
         assertEquals(10, portefeuille.getMyActions().get(action1));
     }
+
+    @Test
+    public void testBuyAction_existe() {
+        portefeuille.buyAction(action2, 3);
+        assertEquals(7, portefeuille.getMyActions().get(action2));
+    }
+
 
     @Test
     public void testSellAction_partie() throws Exception {
@@ -84,6 +107,14 @@ public class PortefeuilleTest {
             portefeuille.sellAction(action1, 12, 1, 2025);
         });
         assertEquals("Quantité à vendre supérieure à celle détenue.", exception.getMessage());
+    }
+
+    @Test
+    public void testSellAction_ActionExistePas() {
+        Exception exception = assertThrows(Exception.class, () -> {
+            portefeuille.sellAction(action5, 5, 1, 2025);
+        });
+        assertEquals("Action n'existe pas en portefeuille.", exception.getMessage());
     }
 
     @Test
